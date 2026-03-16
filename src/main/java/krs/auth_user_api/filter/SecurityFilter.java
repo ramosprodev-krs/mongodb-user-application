@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.repository.DatabaseRepository;
+import krs.auth_user_api.repository.UserRepository;
 import krs.auth_user_api.services.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,11 +18,11 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
     // Manually injecting dependencies
     private final TokenService tokenService;
-    private final DatabaseRepository databaseRepository;
+    private final UserRepository userRepository;
 
-    public SecurityFilter(TokenService tokenService, DatabaseRepository databaseRepository) {
+    public SecurityFilter(TokenService tokenService, UserRepository userRepository) {
         this.tokenService = tokenService;
-        this.databaseRepository = databaseRepository;
+        this.userRepository = userRepository;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             try {
                 String username = tokenService.validateToken(token);
-                UserEntity user = this.databaseRepository.findByUsername(username).orElseThrow();
+                UserEntity user = this.userRepository.findByUsername(username).orElseThrow();
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
