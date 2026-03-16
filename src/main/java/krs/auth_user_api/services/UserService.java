@@ -1,141 +1,196 @@
 package krs.auth_user_api.services;
 
-import jakarta.validation.Valid;
-import krs.auth_user_api.dto.UserCreationDTO;
+import krs.auth_user_api.dto.RegisterDTO;
+import krs.auth_user_api.dto.UserDTO;
 import krs.auth_user_api.dto.UserPatchDTO;
 import krs.auth_user_api.entity.UserEntity;
 import krs.auth_user_api.entity.UserRole;
-import krs.auth_user_api.repository.DatabaseRepository;
-import org.jetbrains.annotations.NotNull;
+import krs.auth_user_api.repository.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     // Manually injecting dependencies
-    private final DatabaseRepository databaseRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private static final String NOTFOUNDMESSAGE = "User not found.";
 
-    public UserService(DatabaseRepository databaseRepository, BCryptPasswordEncoder passwordEncoder){
-        this.databaseRepository = databaseRepository;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    // CRUD methods follow next:
-    // ---CREATE---
-    public UserEntity createUser(@RequestBody @Valid @NotNull UserCreationDTO userCreationDTO) {
+    /**
+     * The UserService class is the core of this application, managing user lifecycle and business rules.
+     * <p>
+     * It implements the UserDetailsService interface to integrate with Spring Security via the loadUserByUsername()
+     * method, ensuring the JWT authentication flow works correctly.
+     * <p>
+     * Beyond security, the class follows the CRUD pattern.
+     **/
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    }
+
+    // CRUD methods:
+
+    // 1. Create user (ADMIN only)
+    public UserEntity createUser(UserDTO userDTO) {
         // Validating if the user does not already exist.
-        if (this.databaseRepository.existsByUsername(userCreationDTO.getUsername())) {
-            throw new IllegalArgumentException("User with the provided username already exists.");
+        if (userRepository.existsByUsername(userDTO.getUsername())) {
+            throw new DataIntegrityViolationException("Username already taken.");
         }
 
-        if (this.databaseRepository.existsByCpf(userCreationDTO.getCpf())) {
-            throw new IllegalArgumentException("User with the provided CPF already exists.");
+        if (userRepository.existsByCpf(userDTO.getCpf())) {
+            throw new DataIntegrityViolationException("CPF already registered.");
         }
 
-        if (this.databaseRepository.existsByEmail(userCreationDTO.getEmail())) {
-            throw new IllegalArgumentException("User with the provided E-mail already exists.");
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new DataIntegrityViolationException("E-mail already registered.");
         }
 
-        // Encrypting the inserted password.
-        String encryptedPassword = passwordEncoder.encode(userCreationDTO.getPassword());
+        // Encrypting the provided password
+        String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
 
-        // Creating entity's object.
+        // Creating new user entity object
         UserEntity newUser = new UserEntity();
 
-        // Setting correspondent data.
-        newUser.setFullName(userCreationDTO.getFullName());
-        newUser.setUsername(userCreationDTO.getUsername());
+        // Setting correspondent data
+        newUser.setUsername(userDTO.getUsername());
         newUser.setPassword(encryptedPassword);
-        newUser.setCpf(userCreationDTO.getCpf());
-        newUser.setEmail(userCreationDTO.getEmail());
-        newUser.setAge(userCreationDTO.getAge());
-        newUser.setUserRole(UserRole.USER);
+        newUser.setCpf(userDTO.getCpf());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.getUserRoles().add(userDTO.getUserRole());
         newUser.setCreationDate(LocalDateTime.now());
 
-        return this.databaseRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 
-    // ---READ---
-    public UserEntity readUser(@Valid @PathVariable String id) {
-        return this.databaseRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found."));
-    }
-
-    // ---UPDATE(PATCH)---
-    public void updateUser(@PathVariable @Valid String id,
-                           @RequestBody @Valid @NotNull UserPatchDTO userPatchDTO) {
-        UserEntity selectedUser = this.databaseRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        // Validating data existence and if not already registered by other users (if unique)
-        // 1. Full name
-        if (userPatchDTO.getFullName() != null) {
-            if (userPatchDTO.getFullName().equals(selectedUser.getFullName())){
-                throw new IllegalArgumentException("Provided full name is the same as the current one.");
-            }
-
-            selectedUser.setFullName(userPatchDTO.getFullName());
+    // 1.1 Register user
+    public UserEntity registerUser(RegisterDTO registerDTO) {
+        if (userRepository.existsByUsername(registerDTO.getUsername())) {
+            throw new DataIntegrityViolationException("Username already taken.");
         }
 
-        // 2. Username
+        if (userRepository.existsByCpf(registerDTO.getCpf())) {
+            throw new DataIntegrityViolationException("CPF already registered.");
+        }
+
+        if (userRepository.existsByEmail(registerDTO.getEmail())) {
+            throw new DataIntegrityViolationException("E-mail already registered.");
+        }
+
+        // Encrypting the provided password
+        String encryptedPassword = passwordEncoder.encode(registerDTO.getPassword());
+
+        // Creating new user entity object
+        UserEntity newUser = new UserEntity();
+
+        // Setting correspondent data
+        newUser.setUsername(registerDTO.getUsername());
+        newUser.setPassword(encryptedPassword);
+        newUser.setCpf(registerDTO.getCpf());
+        newUser.setEmail(registerDTO.getEmail());
+        newUser.getUserRoles().add(UserRole.USER);
+        newUser.setCreationDate(LocalDateTime.now());
+
+        return userRepository.save(newUser);
+    }
+
+    // 2. Read all users (ADMIN only)
+    public List<UserEntity> readAllUsers() {
+        return userRepository.findAll();
+    }
+
+    // 2.1 Read single user (ADMIN only)
+    public UserEntity readUser(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException(NOTFOUNDMESSAGE));
+    }
+
+    // 2.2 Read my user
+    public UserEntity readMyUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(NOTFOUNDMESSAGE));
+    }
+
+    // 3. Update my user
+    public UserEntity updateMyUser(UserPatchDTO userPatchDTO) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity selectedUser =  userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(NOTFOUNDMESSAGE));
+
+        // Validating data existence and if not already registered by other users (if unique)
+
+        // 1. Username
         if (userPatchDTO.getUsername() != null) {
-            if (this.databaseRepository.existsByUsername(userPatchDTO.getUsername())) {
-                throw new IllegalArgumentException("Username already taken.");
+            if (userRepository.existsByUsername(userPatchDTO.getUsername())) {
+                throw new DataIntegrityViolationException("Username already taken.");
             }
 
             if (userPatchDTO.getUsername().equals(selectedUser.getUsername())){
-                throw new IllegalArgumentException("Provided username is the same as the current one.");
+                throw new DataIntegrityViolationException("Provided username is the same as the current one.");
             }
 
             selectedUser.setUsername(userPatchDTO.getUsername());
         }
 
-        // 3. Password
+        // 2. Password
         if (userPatchDTO.getPassword() != null) {
-            var newPassword = this.passwordEncoder.encode(userPatchDTO.getPassword());
+            var newPassword = passwordEncoder.encode(userPatchDTO.getPassword());
             selectedUser.setPassword(newPassword);
         }
 
-        // 4. E-mail
+        // 3. E-mail
         if (userPatchDTO.getEmail() != null) {
-            if (this.databaseRepository.existsByEmail(userPatchDTO.getEmail())) {
-                throw new IllegalArgumentException("E-mail already taken.");
+            if (userRepository.existsByEmail(userPatchDTO.getEmail())) {
+                throw new DataIntegrityViolationException("E-mail already taken.");
             }
 
             if (userPatchDTO.getEmail().equals(selectedUser.getEmail())){
-                throw new IllegalArgumentException("Provided e-mail is the same as the current one.");
+                throw new DataIntegrityViolationException("Provided e-mail is the same as the current one.");
             }
 
             selectedUser.setEmail(userPatchDTO.getEmail());
         }
 
-        // 5. Age
-        if (userPatchDTO.getAge() != null) {
-            if (userPatchDTO.getAge().equals(selectedUser.getAge())){
-                throw new IllegalArgumentException("Provided age is the same as the current one.");
-            }
-
-            selectedUser.setAge(userPatchDTO.getAge());
-        }
-
-
         // Finishing the method by saving user new data
-        this.databaseRepository.save(selectedUser);
+        return userRepository.save(selectedUser);
     }
 
-    // ---DELETE---
-    public void deleteUser(@Valid @PathVariable String id) {
+    // 4. Delete single user (ADMIN only)
+    public void deleteUser(String userId) {
         // Basic ID existence validation
-        if (!this.databaseRepository.existsById(id)) {
-            throw new IllegalArgumentException("The provided ID has not been found.");
+        if (!userRepository.existsById(userId)) {
+            throw new UsernameNotFoundException("The provided ID has not been found.");
         }
 
-        this.databaseRepository.deleteById(id);
+        userRepository.deleteById(userId);
     }
 
+    // 4.1 Delete my user
+    public void deleteMyUser() {
+        // Basic ID existence validation
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity selectedUser =  userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(NOTFOUNDMESSAGE));
+
+
+        userRepository.delete(selectedUser);
+    }
 }
