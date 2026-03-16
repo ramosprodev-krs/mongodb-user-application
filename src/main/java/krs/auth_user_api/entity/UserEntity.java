@@ -1,63 +1,73 @@
-    package krs.auth_user_api.entity;
+package krs.auth_user_api.entity;
 
-    import lombok.AllArgsConstructor;
-    import lombok.Getter;
-    import lombok.NoArgsConstructor;
-    import lombok.Setter;
-    import org.springframework.data.mongodb.core.mapping.Document;
-    import org.springframework.data.mongodb.core.mapping.MongoId;
-    import org.springframework.security.core.GrantedAuthority;
-    import org.springframework.security.core.authority.SimpleGrantedAuthority;
-    import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
-    import java.time.LocalDateTime;
-    import java.util.Collection;
-    import java.util.List;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "users")
+public class UserEntity implements UserDetails {
 
-    @Document(collection = "authenticated-users")
+    @MongoId
+    private String id;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @NotBlank(message = "Provided username is blank.")
+    @Size(min = 5, max = 15)
+    private String username;
 
-    public class UserEntity implements UserDetails {
+    @NotBlank(message = "Provided password is blank.")
+    @Size(min = 5)
+    private String password;
 
-        // The attributes are validated directly inside the "UserDTO" class.
+    @CPF(message = "Please provide a valid CPF.")
+    private String cpf;
 
-        @MongoId
-        private String id;
-        private String fullName;
-        private String username;
-        private String password;
-        private String cpf;
-        private String email;
-        private Integer age;
-        private LocalDateTime creationDate;
-        private UserRole userRole;
+    @Email(message = "Please provide a valid E-mail.")
+    private String email;
 
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-            return List.of(new SimpleGrantedAuthority(userRole.getRole()));
-        }
+    private LocalDateTime creationDate;
+    private Set<UserRole> userRoles;
 
-        @Override
-        public boolean isAccountNonExpired() {
-            return UserDetails.super.isAccountNonExpired();
-        }
-
-        @Override
-        public boolean isAccountNonLocked() {
-            return UserDetails.super.isAccountNonLocked();
-        }
-
-        @Override
-        public boolean isCredentialsNonExpired() {
-            return UserDetails.super.isCredentialsNonExpired();
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return UserDetails.super.isEnabled();
-        }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return userRoles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .toList();
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+}
