@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.br.CPF;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class UserDTO {
 
     @NotBlank(message = "Provided username is blank.")
