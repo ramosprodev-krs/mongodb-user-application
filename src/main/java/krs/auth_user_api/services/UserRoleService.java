@@ -4,9 +4,11 @@ import krs.auth_user_api.entity.UserEntity;
 import krs.auth_user_api.entity.UserRole;
 import krs.auth_user_api.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class UserRoleService {
 
     private final UserRepository userRepository;
