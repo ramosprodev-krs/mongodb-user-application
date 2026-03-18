@@ -79,7 +79,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Request access denied."),
             @ApiResponse(responseCode = "500", description = "Unexpected Server error occurred.")
     })
-    @GetMapping("/read/{userId}")
+    @GetMapping("/id/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserEntity> readUser(@PathVariable String userId) {
         try {
@@ -99,7 +99,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "You are not authenticated."),
             @ApiResponse(responseCode = "500", description = "Unexpected Server error occurred.")
     })
-    @GetMapping("/read/my/user")
+    @GetMapping("/read/me")
     public ResponseEntity<UserEntity> readMyUser() {
         try {
             UserEntity selectedUser = userService.readMyUser();
