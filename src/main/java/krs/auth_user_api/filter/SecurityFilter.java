@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-    // Manually injecting dependencies
+
     private final TokenService tokenService;
     private final UserRepository userRepository;
 
@@ -24,25 +24,37 @@ public class SecurityFilter extends OncePerRequestFilter {
         this.tokenService = tokenService;
         this.userRepository = userRepository;
     }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui") || path.startsWith("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-
             try {
                 String username = tokenService.validateToken(token);
-                UserEntity user = this.userRepository.findByUsername(username).orElseThrow();
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                if (username != null) {
+                    UserEntity user = this.userRepository.findByUsername(username)
+                            .orElseThrow(() -> new RuntimeException("User not found"));
+
+                    var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                SecurityContextHolder.clearContext();
+                System.err.println("Security Filter Token Error: " + e.getMessage());
             }
         }
 
         filterChain.doFilter(request, response);
-
     }
 }
