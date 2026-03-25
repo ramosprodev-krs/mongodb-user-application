@@ -5,16 +5,16 @@ Completion Date: February 25, 2026**
 This project was developed in **Java 21** using **Spring Boot 3.4.2**.
 
 A high-performance **Authentication & User Management API** focused on stateless security (**JWT**) and **NoSQL** data persistence (**MongoDB**).
-Technologies used:
 
--Java 21 
--Spring Security & JWT 
--Spring Data MongoDB
--MongoDB Atlas / Local
--JUnit 5 & Mockito (AAA Pattern)
--Swagger 
--Lombok
--Jakarta Bean Validation 
+### Technologies used:
+- Java 21 
+- Spring Security & JWT 
+- Spring Data MongoDB  
+- MongoDB Atlas / Local  
+- JUnit 5 & Mockito (AAA Pattern)  
+- Swagger 
+- Lombok  
+- Jakarta Bean Validation 
 ---
 
 ## 🧭 Quick Navigation
