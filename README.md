@@ -15,15 +15,12 @@ Technologies used:
 -Swagger 
 -Lombok
 -Jakarta Bean Validation 
-
 ---
 
 ## 🧭 Quick Navigation
-- 🐳 Running with Docker & MongoDB (Guide)
-- 🔐 Security Filter & JWT Flow
-- 📄 API Documentation (Swagger/OpenAPI)
-- 👥 Role-Based Access Control (RBAC)
-- 🧪 Unit Testing Strategy (AAA Pattern)
-- 📩 Contact me!
-
+- [🐳 Running with Docker & MongoDB](/docs/docker-setup-guide.md)  
+- 🔐 [Security Filter & JWT Flow](/docs/jwt.md)
+- 📄 [API Documentation (Swagger/OpenAPI)](/docs/api-doc.md) 
+- 🧪 [Unit Testing Strategy (AAA Pattern)](/docs/tests.md)  
+- 📩 [Contact me!](docs/contact.md)  
 ---
