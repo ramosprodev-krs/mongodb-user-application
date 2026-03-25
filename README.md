@@ -1,6 +1,6 @@
 # <img width="30" height="30" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiBF3Y9fCMAXThIDtSvY1BBw42OUAe5JMwww&s"/> mongodb-user-application
 **Project Start Date: January 15, 2026  
-Completion Date: February 24, 2026**
+Completion Date: February 25, 2026**
 
 This project was developed in **Java 21** using **Spring Boot 3.4.2**.
 
