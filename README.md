@@ -1,4 +1,4 @@
-<img width="30" height="30" src="https://v2.cdn.freecodecamp.org/png/640/5af33789f559779a0f0270a4.png"/> mongodb-user-application
+# <img width="30" height="30" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiBF3Y9fCMAXThIDtSvY1BBw42OUAe5JMwww&s"/> mongodb-user-application
 **Project Start Date: January 15, 2026  
 Completion Date: February 24, 2026**
 
