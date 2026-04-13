@@ -21,20 +21,20 @@ structured.
 ### 2.1. Authentication Controller (`/api/auth`)
 Handles user registration and login.
 
-* **Implementation:** and [**TokenService**]("../src/main/java/krs/auth_user_api/services/TokenService.java") and [**UserService**]("../src/main/java/krs/auth_user_api/services/UserService.java")
-<img src="https://imgur.com/XwDBGrR">
+* **Implementation:** and [**TokenService**]("https://github.com/ramosprodev-krs/mongodb-user-application/blob/master/src/main/java/krs/mongodb_user_controller/services/TokenService.java") and [**UserService**]("https://github.com/ramosprodev-krs/mongodb-user-application/blob/master/src/main/java/krs/mongodb_user_controller/services/UserService.java).  
+<img src="https://i.imgur.com/XwDBGrR.png">
 
 ### 2.2. User Controller (`/api/user`)
 Handles user account management, including self-service and administrative actions (RBAC).
 
-* **Implementation:** [**UserService**]("../src/main/java/krs/auth_user_api/services/UserService.java")
-<img src="https://imgur.com/iwjC3Ob">
+* **Implementation:** [**UserService**]("https://github.com/ramosprodev-krs/mongodb-user-application/blob/master/src/main/java/krs/mongodb_user_controller/services/TokenService.java").  
+<img src="https://i.imgur.com/iwjC3Ob.png">
 
 ### 2.3. User Role Controller (`/api/roles`)
 Handles promotion and demotion of administrative privileges for users.
 
-* **Implementation:** [**UserRoleService**]("../src/main/java/krs/auth_user_api/services/UserRoleService.java")
-<img src="https://imgur.com/wwowaWi">
+* **Implementation:** [**UserRoleService**]("https://github.com/ramosprodev-krs/mongodb-user-application/blob/master/src/main/java/krs/mongodb_user_controller/services/UserRoleService.java").  
+<img src="https://i.imgur.com/wwowaWi.png">
 
 * * * * *
 
@@ -46,10 +46,10 @@ To test restricted endpoints, don't forget to authorize your session in Swagger:
 3.  **Input Token:** Enter `<your_token>`.
 
 Locker icon:
-<img src="https://imgur.com/Gwe24gL">
+<img src="https://i.imgur.com/Gwe24gL.png">
 
 Token screen:
-<img src="https://imgur.com/W7FuZEQ">
+<img src="https://i.imgur.com/W7FuZEQ.png">
 
 #### Return to main documentation:
 [🔙📖 Go back to README](https://github.com/ramosprodev-krs/mongodb-user-application)
