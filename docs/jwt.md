@@ -43,8 +43,6 @@ The JWT acts as a digital passport, carrying specific clearance levels mapped fr
 | **ROLE_USER** | Basic | Standard access to user-specific endpoints. |
 | **ROLE_ADMIN** | Full | Total system access, including management and sensitive configurations. |
 
-Exportar para as Planilhas
-
 ## ⏳ 4. Security Constraints & Implementation
 
 ### 4.1. Statelessness
