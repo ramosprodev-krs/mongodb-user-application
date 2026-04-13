@@ -22,6 +22,8 @@ Access to the API is restricted based on user roles embedded in the JWT token.
 
 * **Prefixes:** All endpoints follow the `/api` base prefix as defined in the RestControllers.
 * **"Self" Logic:** Endpoints such as `/read/me`, `/update`, and `/delete/my/user` leverage the authenticated security context, allowing users to manage their own data regardless of specific roles.
-* **Hierarchy:** Operations that modify other user accounts or elevate privileges (`promote`, `demote`, `delete/{userId}`) are strictly restricted to `ROLE_ADMIN`.  
+* **Hierarchy:** Operations that modify other user accounts or elevate privileges (`promote`, `demote`, `delete/{userId}`) are strictly restricted to `ROLE_ADMIN`.
+
+---
 
 [🔙 Return to 📄 API Documentation (Swagger/OpenAPI)](/docs/api-doc.md)
