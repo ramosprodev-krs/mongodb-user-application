@@ -73,7 +73,6 @@ public String validateToken(String token) {
             .getPayload()
             .getSubject();
 }
-
 ```
 
 ## 5. 🛠️ Core Security Components
@@ -84,5 +83,5 @@ public String validateToken(String token) {
 
 * * * * *
 
-Now that you've finished this document, you can return to the main documentation:
+Now that you've finished this document, you can return to the main documentation:  
 [🔙📖 Go back to README](https://github.com/ramosprodev-krs/mongodb-user-application)
