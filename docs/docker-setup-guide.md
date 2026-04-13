@@ -15,20 +15,20 @@ Before proceeding, ensure you have the following tools properly installed on you
 ## The use of "docker-compose.yml"
 This project includes a **docker-compose.yml** file designed to orchestrate the **MongoDB** database and the **Spring Boot** application containers seamlessly.
 
-### 1. **Clone the repository** 
+## 1. **Clone the repository** 
 ```bash
 git clone [https://github.com/ramosprodev-krs/mongodb-user-application.git](https://github.com/ramosprodev-krs/mongodb-user-application.git)
 cd mongodb-user-application
 ```
 
-### 2. **Start the containers**
+## 2. **Start the containers**
 Use Docker Compose to start both the Application and the Database containers:
 
 ```
 docker-compose up --build -d
 ```
 
-### 3. **Available ports**
+## 3. **Available ports**
 After successfully starting the containers, the following ports will be available:
 
 ```
@@ -36,7 +36,7 @@ Port 8080 -> Runs the application (Spring Boot API)
 Port 27017 -> Runs the MongoDB Database
 ```
 
-### 4. **Accessing the endpoints**
+## 4. **Accessing the endpoints**
 We will interact with the authentication and protected endpoints locally using Swagger.
 
 #### 4.1. Registering with Swagger
