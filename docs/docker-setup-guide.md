@@ -19,7 +19,7 @@ This project includes a **docker-compose.yml** file designed to orchestrate the 
 
 ### 1. **Clone the repository** 
 ```bash
-git clone [https://github.com/your-username/mongodb-user-application.git](https://github.com/your-username/mongodb-user-application.git)
+git clone [https://github.com/ramosprodev-krs/mongodb-user-application.git](https://github.com/ramosprodev-krs/mongodb-user-application.git)
 cd mongodb-user-application
 ```
 ---
