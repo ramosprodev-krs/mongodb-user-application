@@ -45,10 +45,10 @@ To test restricted endpoints, don't forget to authorize your session in Swagger:
 2.  **Authorize:** Click the **Authorize** (lock icon) button.
 3.  **Input Token:** Enter `<your_token>`.
 
-Locker icon:
+Locker icon:  
 <img src="https://i.imgur.com/Gwe24gL.png">
 
-Token screen:
+Token screen:  
 <img src="https://i.imgur.com/W7FuZEQ.png">
 
 #### Return to main documentation:
