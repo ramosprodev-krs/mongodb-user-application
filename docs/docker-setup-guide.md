@@ -21,47 +21,86 @@ This project includes a **docker-compose.yml** file designed to orchestrate the 
 git clone [https://github.com/your-username/mongodb-user-application.git](https://github.com/your-username/mongodb-user-application.git)
 cd mongodb-user-application
 
-🚀 Passo a Passo para Execução
-------------------------------
+### 2\. **Start the containers**
 
-### 1. Clonar o Repositório
-
-Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   git clone [https://github.com/your-username/mongodb-user-application.git](https://github.com/your-username/mongodb-user-application.git)  cd mongodb-user-application   `
-
-### 2\. Configuração do Spring Boot (application.properties)
-
-Para que a aplicação comunique com o container do MongoDB, as propriedades devem estar alinhadas com as credenciais do Docker:
-
-Properties
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   spring.data.mongodb.host=localhost  spring.data.mongodb.port=27017  spring.data.mongodb.database=mongodb  spring.data.mongodb.username=user  spring.data.mongodb.password=12345  spring.data.mongodb.authentication-database=admin  # Segurança  jwt.secret=super-secret-phrase-that-no-one-should-know-32-chars  jwt.expiration=3600000   `
-
-### 3\. Subir o Banco de Dados
-
-Executa o comando abaixo na raiz do projeto para iniciar o MongoDB:
+Use Docker Compose to start both the Application and the Database containers:
 
 Bash
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   docker-compose up -d   `
+```
+docker-compose up --build -d
 
-### 4\. Executar a Aplicação
+```
 
-Com o banco de dados ativo, inicia a aplicação Spring Boot:
+### 3\. **Available ports**
+
+After successfully starting the containers, the following ports will be available:
 
 Bash
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   ./mvnw spring-boot:run   `
+```
+Port 8080 -> Runs the application (Spring Boot API)
+Port 27017 -> Runs the MongoDB Database
 
-🔍 Verificação
---------------
+```
 
-*   **MongoDB:** Acessível em localhost:27017 via DBeaver ou MongoDB Compass.
-    
-*   **Swagger UI:** Acessível em http://localhost:8080/swagger-ui.html (assim que a app iniciar)."""
-    
+### 4\. **Accessing the endpoints**
 
-with open("docker-setup-guide.txt", "w", encoding="utf-8") as f:f.write(content)
+We will interact with the authentication and protected endpoints locally using Swagger.
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML``   Aqui está o ficheiro `.txt` com o guia estruturado com base nas tuas configurações de `properties` e `compose`.  O ficheiro contém as instruções de clonagem, configuração das variáveis de ambiente e os comandos para subir o serviço.  Seu arquivo TXT está pronto  [file-tag: code-generated-file-0-1776085454999888343]  Quando estiveres pronto, podes mandar as classes de **Security/JWT** para seguirmos para o próximo tópico da navegação!   ``
+#### 4.1. Registering with Swagger
+
+To register your first account, access: `http://localhost:8080/swagger-ui.html`
+
+1.  Open the **"Authentication Controller"** tab.
+
+2.  Select the **/auth/register** endpoint.
+
+3.  Provide the user data in the following JSON pattern:
+
+JSON
+
+```
+{
+  "username": "your_user",
+  "password": "your_password",
+  "email": "example@email.com"
+}
+
+```
+
+#### 4.2. Logging in with Swagger
+
+After registering, you need to authenticate to receive your access token.
+
+1.  Access the **/auth/login** endpoint.
+
+2.  Provide your credentials:
+
+JSON
+
+```
+{
+  "username": "your_user",
+  "password": "your_password"
+}
+
+```
+
+1.  Upon success, the API will return a **JWT Token**. Copy this token.
+
+#### 4.3. Authorizing Protected Endpoints
+
+To access routes that require authentication, you must use the generated token:
+
+1.  Click the **"Authorize"** (locker icon) at the top of the Swagger page.
+
+2.  Paste your token in the field (some configurations require the 'Bearer ' prefix).
+
+3.  Once authorized, you can interact with all protected resources based on your user's permissions.
+
+* * * * *
+
+Now that you've finished this guide, you can return to the main documentation:
+
+🔙📖 Go back to README
