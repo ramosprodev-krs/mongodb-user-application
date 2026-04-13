@@ -17,35 +17,33 @@ Before proceeding, ensure you have the following tools properly installed on you
 ## The use of "docker-compose.yml"
 This project includes a **docker-compose.yml** file designed to orchestrate the **MongoDB** database and the **Spring Boot** application containers seamlessly.
 
-### 1. **Clone the repository** ```bash
+### 1. **Clone the repository** 
+```bash
 git clone [https://github.com/your-username/mongodb-user-application.git](https://github.com/your-username/mongodb-user-application.git)
 cd mongodb-user-application
+```
+---
 
-### 2\. **Start the containers**
+### 2. **Start the containers**
 
 Use Docker Compose to start both the Application and the Database containers:
 
-Bash
-
 ```
 docker-compose up --build -d
-
 ```
+---
 
-### 3\. **Available ports**
+### 3. **Available ports**
 
 After successfully starting the containers, the following ports will be available:
-
-Bash
 
 ```
 Port 8080 -> Runs the application (Spring Boot API)
 Port 27017 -> Runs the MongoDB Database
-
 ```
+---
 
-### 4\. **Accessing the endpoints**
-
+### 4. **Accessing the endpoints**
 We will interact with the authentication and protected endpoints locally using Swagger.
 
 #### 4.1. Registering with Swagger
@@ -58,45 +56,35 @@ To register your first account, access: `http://localhost:8080/swagger-ui.html`
 
 3.  Provide the user data in the following JSON pattern:
 
-JSON
-
 ```
 {
   "username": "your_user",
   "password": "your_password",
   "email": "example@email.com"
 }
-
 ```
 
 #### 4.2. Logging in with Swagger
-
 After registering, you need to authenticate to receive your access token.
 
 1.  Access the **/auth/login** endpoint.
 
 2.  Provide your credentials:
-
-JSON
-
 ```
 {
   "username": "your_user",
   "password": "your_password"
 }
-
 ```
 
-1.  Upon success, the API will return a **JWT Token**. Copy this token.
+Upon success, the API will return a **JWT Token**. Copy this token.
 
 #### 4.3. Authorizing Protected Endpoints
 
 To access routes that require authentication, you must use the generated token:
 
 1.  Click the **"Authorize"** (locker icon) at the top of the Swagger page.
-
 2.  Paste your token in the field (some configurations require the 'Bearer ' prefix).
-
 3.  Once authorized, you can interact with all protected resources based on your user's permissions.
 
 * * * * *
