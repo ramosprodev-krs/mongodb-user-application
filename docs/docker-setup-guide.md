@@ -11,29 +11,30 @@ Before proceeding, ensure you have the following tools properly installed on you
 - [Java Development Kit (JDK 21)](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)  
 - [Docker Engine / Docker Desktop](https://www.docker.com/products/docker-desktop/)  
 - [Insomnia](https://insomnia.rest/download) or [Postman](https://www.postman.com/downloads/) (use if you judge necessary, as Swagger is already included).
-
 ---
 
 ## The use of "docker-compose.yml"
 This project includes a **docker-compose.yml** file designed to orchestrate the **MongoDB** database and the **Spring Boot** application containers seamlessly.
 
 ### 1. **Clone the repository** 
+---
+
 ```bash
 git clone [https://github.com/ramosprodev-krs/mongodb-user-application.git](https://github.com/ramosprodev-krs/mongodb-user-application.git)
 cd mongodb-user-application
 ```
----
 
 ### 2. **Start the containers**
+---
 
 Use Docker Compose to start both the Application and the Database containers:
 
 ```
 docker-compose up --build -d
 ```
----
 
 ### 3. **Available ports**
+---
 
 After successfully starting the containers, the following ports will be available:
 
@@ -41,10 +42,10 @@ After successfully starting the containers, the following ports will be availabl
 Port 8080 -> Runs the application (Spring Boot API)
 Port 27017 -> Runs the MongoDB Database
 ```
----
 
 ### 4. **Accessing the endpoints**
 We will interact with the authentication and protected endpoints locally using Swagger.
+---
 
 #### 4.1. Registering with Swagger
 
