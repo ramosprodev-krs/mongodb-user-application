@@ -89,6 +89,5 @@ To access routes that require authentication, you must use the generated token:
 
 * * * * *
 
-Now that you've finished this guide, you can return to the main documentation:
-
-🔙📖 Go back to README
+Now that you've finished this guide, you can return to the main documentation:  
+[🔙📖 Go back to README](https://github.com/ramosprodev-krs/mongodb-user-application)
