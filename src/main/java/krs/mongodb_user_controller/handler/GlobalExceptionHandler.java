@@ -1,4 +1,4 @@
-package krs.auth_user_api.handler;
+package krs.mongodb_user_controller.handler;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

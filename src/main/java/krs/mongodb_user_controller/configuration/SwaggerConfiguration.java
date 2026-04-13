@@ -1,4 +1,4 @@
-package krs.auth_user_api.configuration;
+package krs.mongodb_user_controller.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

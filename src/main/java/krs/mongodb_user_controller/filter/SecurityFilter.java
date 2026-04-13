@@ -1,12 +1,12 @@
-package krs.auth_user_api.filter;
+package krs.mongodb_user_controller.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.repository.UserRepository;
-import krs.auth_user_api.services.TokenService;
+import krs.mongodb_user_controller.entity.UserEntity;
+import krs.mongodb_user_controller.repository.UserRepository;
+import krs.mongodb_user_controller.services.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

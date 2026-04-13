@@ -1,11 +1,11 @@
-package krs.auth_user_api.services;
+package krs.mongodb_user_controller.services;
 
-import krs.auth_user_api.dto.RegisterDTO;
-import krs.auth_user_api.dto.UserDTO;
-import krs.auth_user_api.dto.UserPatchDTO;
-import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.entity.UserRole;
-import krs.auth_user_api.repository.UserRepository;
+import krs.mongodb_user_controller.dto.RegisterDTO;
+import krs.mongodb_user_controller.dto.UserDTO;
+import krs.mongodb_user_controller.dto.UserPatchDTO;
+import krs.mongodb_user_controller.entity.UserEntity;
+import krs.mongodb_user_controller.entity.UserRole;
+import krs.mongodb_user_controller.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

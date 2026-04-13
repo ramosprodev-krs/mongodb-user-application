@@ -1,4 +1,4 @@
-package krs.auth_user_api;
+package krs.mongodb_user_controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

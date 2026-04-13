@@ -1,7 +1,7 @@
-package krs.auth_user_api.dto;
+package krs.mongodb_user_controller.dto;
 
 import jakarta.validation.constraints.*;
-import krs.auth_user_api.entity.UserRole;
+import krs.mongodb_user_controller.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

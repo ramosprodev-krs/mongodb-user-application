@@ -1,8 +1,8 @@
-package krs.auth_user_api.services;
+package krs.mongodb_user_controller.services;
 
-import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.entity.UserRole;
-import krs.auth_user_api.repository.UserRepository;
+import krs.mongodb_user_controller.entity.UserEntity;
+import krs.mongodb_user_controller.entity.UserRole;
+import krs.mongodb_user_controller.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

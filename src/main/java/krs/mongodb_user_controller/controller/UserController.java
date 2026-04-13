@@ -1,13 +1,13 @@
-package krs.auth_user_api.controller;
+package krs.mongodb_user_controller.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import krs.auth_user_api.dto.UserDTO;
-import krs.auth_user_api.dto.UserPatchDTO;
-import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.services.UserService;
+import krs.mongodb_user_controller.dto.UserDTO;
+import krs.mongodb_user_controller.dto.UserPatchDTO;
+import krs.mongodb_user_controller.entity.UserEntity;
+import krs.mongodb_user_controller.services.UserService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

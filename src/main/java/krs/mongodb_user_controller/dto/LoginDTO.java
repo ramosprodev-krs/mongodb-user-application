@@ -1,4 +1,4 @@
-package krs.auth_user_api.dto;
+package krs.mongodb_user_controller.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,10 @@
-package krs.auth_user_api.controller;
+package krs.mongodb_user_controller.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import krs.auth_user_api.entity.UserRole;
-import krs.auth_user_api.services.UserRoleService;
+import krs.mongodb_user_controller.entity.UserRole;
+import krs.mongodb_user_controller.services.UserRoleService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

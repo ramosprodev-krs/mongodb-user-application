@@ -1,10 +1,10 @@
-    package krs.auth_user_api.services;
+    package krs.mongodb_user_controller.services;
 
     import io.jsonwebtoken.Jwts;
     import io.jsonwebtoken.SignatureAlgorithm;
     import io.jsonwebtoken.security.Keys;
-    import krs.auth_user_api.entity.UserEntity;
-    import krs.auth_user_api.entity.UserRole;
+    import krs.mongodb_user_controller.entity.UserEntity;
+    import krs.mongodb_user_controller.entity.UserRole;
     import org.springframework.beans.factory.annotation.Value;
     import org.springframework.stereotype.Service;
 

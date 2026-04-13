@@ -1,6 +1,6 @@
-package krs.auth_user_api.configuration;
+package krs.mongodb_user_controller.configuration;
 
-import krs.auth_user_api.filter.SecurityFilter;
+import krs.mongodb_user_controller.filter.SecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

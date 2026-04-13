@@ -1,4 +1,4 @@
-package krs.auth_user_api.entity;
+package krs.mongodb_user_controller.entity;
 
 public enum UserRole {
     ADMIN("ROLE_ADMIN"),

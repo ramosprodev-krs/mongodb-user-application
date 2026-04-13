@@ -1,7 +1,6 @@
-package krs.auth_user_api.repository;
+package krs.mongodb_user_controller.repository;
 
-import krs.auth_user_api.entity.UserEntity;
-import krs.auth_user_api.entity.UserRole;
+import krs.mongodb_user_controller.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
