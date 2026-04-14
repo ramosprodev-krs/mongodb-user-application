@@ -1,118 +1,66 @@
-📄 API Documentation (Swagger/OpenAPI)
-======================================
-
-The application provides an interactive **Swagger UI** (the same as we used initially) documentation, allowing us to visualize and test all endpoints directly from the browser.
-
-1\. Accessing the Documentation
--------------------------------
-
-As mentioned before, once the application is running via Docker, access the documentation at:
-
-* * * * *
-
-2\. 🛠️ API Structure & Implementation
---------------------------------------
-
-The API is organized into functional controllers. The business logic for these endpoints is located in the **Services** directory.
-
-Each correspondent service is linked next to the mentioned controller, there it is possible to further visualize how each method was
-
-structured.
-
-If you would wish to see a detailed list of each one of the endpoints,
-
-you can check this file:
-
--   🔐
-
-### 2.1. Authentication Controller (`/api/auth`)
-
-Handles user registration and login.
-
--   **Implementation:** and
-
-### 2.2. User Controller (`/api/user`)
-
-Handles user account management, including self-service and administrative actions (RBAC).
-
--   **Implementation:**
-
-### 2.3. User Role Controller (`/api/roles`)
-
-Handles promotion and demotion of administrative privileges for users.
-
--   **Implementation:**
-
-* * * * *
-
-3\. Testing Protected Endpoints
--------------------------------
-
-To test restricted endpoints, don't forget to authorize your session in Swagger:
-
-1.  **Generate a Token:** Use `POST /api/auth/login`.
-
-2.  **Authorize:** Click the **Authorize** (lock icon) button.
-
-3.  **Input Token:** Enter `<your_token>`.
-
-Locker icon:
-
-Token screen:🧪 Test Suite Configuration
-===========================
-
-This document outlines the test implementation for the user management service layer, focusing on business logic validation and security context mocking.
+# 🧪 Unit Testing Strategy (AAA Pattern)
+This document outlines the test implementation for the user management service layer, focusing on business logic validation and security context mocking using the **Arrange-Act-Assert** pattern.
 
 * * * * *
 
 1\. User Service Tests (`UserServiceTest`)
 ------------------------------------------
 
-Validates the `UserService` operations using the **AAA (Arrange, Act, Assert)** pattern to ensure high-quality code and reliable user management.
+Ensures the reliability of `UserService` by validating CRUD operations and security constraints in an isolated environment.
 
 -   **Key Features:**
 
-    -   **Mocking Strategy:** Utilizes `@Mock` for `UserRepository` and `BCryptPasswordEncoder` to isolate service logic from external dependencies.
+    -   **AAA Pattern:** Each test is strictly structured into **Arrange** (setting up mocks), **Act** (calling the method), and **Assert** (verifying results).
 
-    -   **Context Simulation:** Mocks Spring Security's `SecurityContext` and `Authentication` to test "My User" operations without a running security filter.
+    -   **Mocking Strategy:** Utilizes `@Mock` for `UserRepository` and `BCryptPasswordEncoder` to decouple service logic from the database and encryption infra.
 
-    -   **Data Integrity:** Ensures that unique constraints (Username, CPF, Email) are respected before any persistence operation.
+    -   **Security Context Mocking:** Uses `Mockito` to simulate `SecurityContextHolder`, allowing the testing of authenticated routes without a live security filter.
 
-    -   **Exception Handling:** Validates that the system correctly throws `DataIntegrityViolationException` and `UsernameNotFoundException` in failure scenarios.
+    -   **Validation Logic:** Confirms that unique constraints (Username, CPF, and Email) are checked before `repository.save()` is triggered.
 
 * * * * *
 
 2\. Test Scenarios & Nesting
 ----------------------------
 
-The test suite is organized into `@Nested` classes to maintain a clean hierarchy and improve readability.
+The test suite is organized into `@Nested` classes to maintain a clean hierarchy and improve scannability.
 
--   **User Creation:** * Verifies successful user registration with password encryption.
+-   **User Creation:**
 
-    -   Ensures no duplicate data is saved to the database.
+    -   Verifies successful user registration and ensures passwords are encrypted via `BCrypt`.
 
--   **User Retrieval:** * Tests fetching user data by ID.
+    -   Validates that `DataIntegrityViolationException` is thrown when a duplicate username is detected.
 
-    -   Validates error handling when a user is not found.
+-   **User Retrieval:**
 
--   **Self-Service Operations (`MyUser`):** * Simulates an authenticated session to test `updateMyUser` and `deleteMyUser`.
+    -   Tests fetching user data by ID and ensures the correct entity is returned.
 
-    -   Confirms that changes only affect the currently logged-in user.
+    -   Handles edge cases where `UsernameNotFoundException` should be thrown.
 
--   **Administrative Actions:** * Validates administrative deletion of users via ID.
+-   **Self-Service Updates (`updateMyUser`):**
+
+    -   Simulates an active session to test partial updates to the user's own profile.
+
+    -   Verifies that the service correctly interacts with the security context to identify the requester.
+
+-   **Deletion Logic:**
+
+    -   **Administrative:** Validates the standard `deleteById` flow.
+
+    -   **Self-Deletion:** Tests the logic for a user removing their own account based on their authenticated principal.
 
 * * * * *
 
 3\. Tooling & Environment
 -------------------------
 
-Technical stack used to maintain the integrity of the service layer.
+The following stack ensures the integrity of the service layer through automated verification:
 
--   **JUnit 5:** Core testing framework using nested structures and display names.
+-   **JUnit 5:** Provides the core testing engine and `@Nested` structure for grouping scenarios.
 
--   **Mockito:** Used for behavior verification (`verify`) and stubbing (`doReturn`).
+-   **Mockito:** Handles behavior verification (`verify`) and stubbing (`doReturn`) for all dependencies.
 
--   **Assertions:** Combines standard JUnit assertions (`assertEquals`, `assertNotNull`) to validate object states post-execution.
+-   **AssertJ / JUnit Assertions:** Used to validate that the output matches the expected `UserEntity` state.
 
 * * * * *
 
