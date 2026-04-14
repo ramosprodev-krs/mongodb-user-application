@@ -64,6 +64,5 @@ The following stack ensures the integrity of the service layer through automated
 
 * * * * *
 
-#### Return to main documentation:
-
-[🔙📖 Go back to README]("ramosprodev-krs/mongodb-user-application")
+#### Return to main documentation:  
+[🔙📖 Go back to README](https://github.com/ramosprodev-krs/mongodb-user-application)
