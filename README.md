@@ -1,4 +1,14 @@
-# <img width="30" height="30" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiBF3Y9fCMAXThIDtSvY1BBw42OUAe5JMwww&s"/> mongodb-user-application
+<div align="center">
+  
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://w7.pngwing.com/pngs/216/509/png-transparent-mongodb-node-js-npm-open-source-model-angularjs-leaf-leaf-logo-grass-thumbnail.png" width="180"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <br> <h1 align="center">mongodb-user-application</h1> <br> |
+| :--- | :--- |
+
+**A Spring Security MongoDB user management application.**
+
+</div>  
+
+---
+
 **Project Start Date: January 15, 2026  
 Completion Date: February 25, 2026**
 
