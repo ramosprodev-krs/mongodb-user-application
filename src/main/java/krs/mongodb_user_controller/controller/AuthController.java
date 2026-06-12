@@ -9,8 +9,6 @@ import krs.mongodb_user_controller.dto.RegisterDTO;
 import krs.mongodb_user_controller.entity.UserEntity;
 import krs.mongodb_user_controller.services.TokenService;
 import krs.mongodb_user_controller.services.UserService;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,14 +53,7 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<UserEntity> registerUser(@RequestBody @Valid RegisterDTO registerDTO) {
-        try {
-            UserEntity createdUser = userService.registerUser(registerDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
+        UserEntity createdUser = userService.registerUser(registerDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

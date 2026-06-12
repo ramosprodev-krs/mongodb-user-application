@@ -8,12 +8,9 @@ import krs.mongodb_user_controller.dto.UserDTO;
 import krs.mongodb_user_controller.dto.UserPatchDTO;
 import krs.mongodb_user_controller.entity.UserEntity;
 import krs.mongodb_user_controller.services.UserService;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,14 +38,8 @@ public class UserController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserEntity> createUser(@RequestBody @Valid UserDTO userDTO) {
-        try {
-            UserEntity createdUser = userService.createUser(userDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        UserEntity createdUser = userService.createUser(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     // 2. Read all users
@@ -62,12 +53,8 @@ public class UserController {
     @GetMapping("/read/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserEntity>> readAllUsers() {
-        try {
-            List<UserEntity> usersList = userService.readAllUsers();
-            return ResponseEntity.ok(usersList);
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        List<UserEntity> usersList = userService.readAllUsers();
+        return ResponseEntity.ok(usersList);
     }
 
     // 2.1 Read single user
@@ -82,14 +69,8 @@ public class UserController {
     @GetMapping("/id/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserEntity> readUser(@PathVariable String userId) {
-        try {
-            UserEntity selectedUser = userService.readUser(userId);
-            return ResponseEntity.ok(selectedUser);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        UserEntity selectedUser = userService.readUser(userId);
+        return ResponseEntity.ok(selectedUser);
     }
 
     // 2.2 Read my user
@@ -101,12 +82,8 @@ public class UserController {
     })
     @GetMapping("/read/me")
     public ResponseEntity<UserEntity> readMyUser() {
-        try {
-            UserEntity selectedUser = userService.readMyUser();
-            return ResponseEntity.ok(selectedUser);
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        UserEntity selectedUser = userService.readMyUser();
+        return ResponseEntity.ok(selectedUser);
     }
 
     // 3. Update my user (Patch)
@@ -119,14 +96,8 @@ public class UserController {
     })
     @PatchMapping("/update")
     public ResponseEntity<UserEntity> updateMyUser(@RequestBody @Valid UserPatchDTO userPatchDTO) {
-        try {
-            UserEntity updatedUser = userService.updateMyUser(userPatchDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        UserEntity updatedUser = userService.updateMyUser(userPatchDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 
     // 4. Delete a single user (ADMIN only)
@@ -141,14 +112,8 @@ public class UserController {
     @DeleteMapping("/delete/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
-        try {
-            userService.deleteUser(userId);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        userService.deleteUser(userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     // 4.1 Delete my user
@@ -160,11 +125,7 @@ public class UserController {
     })
     @DeleteMapping("/delete/my/user")
     public ResponseEntity<Void> deleteMyUser() {
-        try {
-            userService.deleteMyUser();
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        userService.deleteMyUser();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import krs.mongodb_user_controller.entity.UserRole;
 import krs.mongodb_user_controller.services.UserRoleService;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -33,17 +30,8 @@ public class UserRoleController {
     })
     @PatchMapping("/promote/admin/{userId}")
     public ResponseEntity<Set<UserRole>> promoteToAdmin(@PathVariable String userId) {
-        try {
-            var roles = userRoleService.promoteToAdmin(userId);
-            return ResponseEntity.ok(roles);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (UnsupportedOperationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
+        var roles = userRoleService.promoteToAdmin(userId);
+        return ResponseEntity.ok(roles);
     }
 
     @Operation(summary = "User ADMIN demotion (ADMIN only)", description = "Allows the ADMIN to demote an ADMIN.")
@@ -56,17 +44,8 @@ public class UserRoleController {
     })
     @DeleteMapping("/demote/admin/{userId}")
     public ResponseEntity<Set<UserRole>> demoteAdminRole(@PathVariable String userId) {
-        try {
-            var roles = userRoleService.demoteAdminRole(userId);
-            return ResponseEntity.ok(roles);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (UnsupportedOperationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
+        var roles = userRoleService.demoteAdminRole(userId);
+        return ResponseEntity.ok(roles);
     }
 
 
